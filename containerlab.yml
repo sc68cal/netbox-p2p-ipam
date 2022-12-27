@@ -1,0 +1,24 @@
+name: ipamexmple
+
+topology:
+  nodes:
+    spine1:
+      kind: srl
+      image: ghcr.io/nokia/srlinux
+    spine2:
+      kind: srl
+      image: ghcr.io/nokia/srlinux
+    spine3:
+      kind: srl
+      image: ghcr.io/nokia/srlinux
+    spine4:
+      kind: srl
+      image: ghcr.io/nokia/srlinux
+
+  links:
+    - endpoints: ["spine1:e1-1", "spine2:e1-1"]
+    - endpoints: ["spine1:e1-2", "spine3:e1-1"]
+    - endpoints: ["spine1:e1-3", "spine4:e1-1"]
+
+    - endpoints: ["spine2:e1-2", "spine3:e1-2"]
+    - endpoints: ["spine2:e1-3", "spine4:e1-2"]
