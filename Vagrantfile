@@ -13,7 +13,9 @@ Vagrant.configure("2") do |config|
 
 
   config.vm.provision "shell",
-    inline: "sudo apt-get install -y docker.io"
+    inline: "sudo apt-get install -y docker.io docker-compose"
   config.vm.provision "shell",
     inline: 'bash -c "$(curl -sL https://get.containerlab.dev)"'
+  config.vm.provision "shell",
+    inline: "git clone https://github.com/netbox-community/netbox-docker.git"
 end
