@@ -21,7 +21,7 @@ Vagrant.configure("2") do |config|
   config.vm.provision "shell",
     inline: "sudo usermod -a -G docker vagrant"
   config.vm.provision "shell",
-    inline: "cd netbox-docker; docker-compose -f docker-compose.yml -d up"
+    inline: "cd netbox-docker; docker-compose -f docker-compose.yml up -d"
   config.vm.provision "shell",
     inline: "sudo containerlab deploy -t /vagrant/containerlab.yml"
   config.vm.synced_folder ".", "/vagrant",
