@@ -22,6 +22,6 @@ Vagrant.configure("2") do |config|
     inline: "sudo usermod -a -G docker vagrant"
 
   config.vm.synced_folder ".", "/vagrant",
-    mount_options: ["dmask=022, fmask=022"]
+    mount_options: ["dmask=022,fmask=022"]
 
 end
