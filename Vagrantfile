@@ -18,6 +18,8 @@ Vagrant.configure("2") do |config|
     inline: 'bash -c "$(curl -sL https://get.containerlab.dev)"'
   config.vm.provision "shell",
     inline: "git clone https://github.com/netbox-community/netbox-docker.git"
+  config.vm.provision "shell",
+    inline: "sudo usermod -a -G docker vagrant"
 
   config.vm.synced_folder ".", "/vagrant",
     mount_options: ["dmask=022, fmask=022"]
