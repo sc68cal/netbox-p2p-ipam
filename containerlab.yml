@@ -16,9 +16,11 @@ topology:
       image: ghcr.io/nokia/srlinux
 
   links:
-    - endpoints: ["spine1:e1-1", "spine2:e1-1"]
-    - endpoints: ["spine1:e1-2", "spine3:e1-1"]
-    - endpoints: ["spine1:e1-3", "spine4:e1-1"]
+    - endpoints: ["spine1:e1-2", "spine2:e1-1"]
+    - endpoints: ["spine1:e1-3", "spine3:e1-1"]
+    - endpoints: ["spine1:e1-4", "spine4:e1-1"]
 
-    - endpoints: ["spine2:e1-2", "spine3:e1-2"]
-    - endpoints: ["spine2:e1-3", "spine4:e1-2"]
+    - endpoints: ["spine2:e1-3", "spine3:e1-2"]
+    - endpoints: ["spine2:e1-4", "spine4:e1-2"]
+
+    - endpoints: ["spine3:e1-4", "spine4:e1-3"]

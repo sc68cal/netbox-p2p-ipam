@@ -1,7 +1,33 @@
 ---
 
 cables: 
+
   - a_device: clab-ipamexample-spine1
-    a_name: e1-1
+    a_name: e1-2
     b_device: clab-ipamexample-spine2
     b_name: e1-1
+
+  - a_device: clab-ipamexample-spine1
+    a_name: e1-3
+    b_device: clab-ipamexample-spine3
+    b_name: e1-1
+
+  - a_device: clab-ipamexample-spine1
+    a_name: e1-4
+    b_device: clab-ipamexample-spine4
+    b_name: e1-1
+
+  - a_device: clab-ipamexample-spine2
+    a_name: e1-3
+    b_device: clab-ipamexample-spine3
+    b_name: e1-2
+
+  - a_device: clab-ipamexample-spine2
+    a_name: e1-4
+    b_device: clab-ipamexample-spine4
+    b_name: e1-2
+
+  - a_device: clab-ipamexample-spine3
+    a_name: e1-4
+    b_device: clab-ipamexample-spine4
+    b_name: e1-3
