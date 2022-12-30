@@ -69,9 +69,9 @@
         - e1-4
 
 - hosts: localhost
-  gather_facts: False
   tags:
-    - cables
+    - ipam
+  gather_facts: False
   collections:
     - netbox.netbox
   module_defaults:
@@ -81,6 +81,8 @@
       validate_certs: False
   tasks:
     - name: Create cables for spine links
+      tags:
+        - cables
       netbox_cable:
         data:
           termination_a_type: dcim.interface
@@ -93,3 +95,25 @@
             name: "{{ item.b_name }}"
         state: present
       loop: "{{ cables }}"
+
+    - name: Create p2p prefix
+      netbox_prefix:
+        data:
+          family: 6
+          prefix: "{{ p2p_prefix }}"
+          site: fake-site
+
+    - name: Set a fact for the total number of routers we have
+      set_fact:
+        router_count: "{{ groups['srl'] | length }}"
+
+    - name: Allocate /127s from p2p prefix
+      netbox_prefix:
+        data:
+          family: 6
+          prefix: "{{ p2p_prefix | ansible.utils.ipsubnet(127, item) }}"
+          site: fake-site
+
+      # Create the number of prefixes equal to the number of connections in the mesh
+      # via the formula N(N-1)/2
+      loop: "{{ range(0,(conn_count | int * (conn_count | int - 1)//2)) | list }}"

@@ -1,4 +1,5 @@
 ---
+p2p_prefix: 2001:DB8:1:1::/64
 
 cables: 
 
