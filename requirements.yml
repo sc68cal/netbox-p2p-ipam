@@ -1,4 +1,4 @@
 ---
 collections:
-  - netbox.netbox
-  - community.network
+  - netbox.netbox, v3.10.0
+  - community.network, v5.0.0

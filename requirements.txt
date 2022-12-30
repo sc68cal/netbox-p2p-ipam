@@ -1,2 +1,2 @@
-ansible
-pynetbox
+ansible==7.1.0
+pynetbox==7.0.0
