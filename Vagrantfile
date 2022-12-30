@@ -21,10 +21,15 @@ Vagrant.configure("2") do |config|
   config.vm.provision "shell",
     inline: "sudo usermod -a -G docker vagrant"
   config.vm.provision "shell",
-    inline: "cd netbox-docker; docker-compose -f docker-compose.yml up -d"
+    inline: "cd netbox-docker; cp docker-compose.override.yml.example docker-compose.override.yml; docker-compose -f docker-compose.yml up -d"
   config.vm.provision "shell",
     inline: "sudo containerlab deploy -t /vagrant/containerlab.yml"
   config.vm.synced_folder ".", "/vagrant",
     mount_options: ["dmask=022,fmask=022"]
+
+  # Forward netbox port
+  Vagrant.configure("2") do |config|
+    config.vm.network "forwarded_port", guest: 8000, host: 8000
+  end
 
 end
