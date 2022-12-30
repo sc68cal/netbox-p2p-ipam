@@ -1,0 +1,95 @@
+---
+- hosts: all
+  gather_facts: False
+  # No need to reach out to the device for this play
+  connection: local
+  collections:
+    - netbox.netbox
+  module_defaults:
+    group/netbox.netbox.netbox:
+      netbox_url: "http://localhost:8000"
+      netbox_token: "0123456789abcdef0123456789abcdef01234567"
+      validate_certs: False
+  tasks:
+    # When using connection: local with a python-venv on
+    # the ansible controller, we also need to use
+    # delegate_to so that we use the python venv which
+    # has all our deps installed in
+
+    - name: Create fake manufacturer
+      delegate_to: localhost
+      run_once: True
+      netbox_manufacturer:
+        data:
+          name: fake-manufacturer
+
+    - name: Create router role
+      delegate_to: localhost
+      run_once: True
+      netbox_device_role:
+        data:
+          name: router
+
+    - name: Create our site 
+      delegate_to: localhost
+      run_once: True
+      netbox_site:
+        data:
+          name: fake site
+
+    - name: Create a device_type for our spines
+      delegate_to: localhost
+      run_once: True
+      netbox_device_type:
+        data:
+          slug: router
+          model: fake-router-model
+          manufacturer: fake-manufacturer
+
+    - name: Create spine devices in netbox
+      delegate_to: localhost
+      netbox_device:
+        data:
+          name: "{{ inventory_hostname }}"
+          device_type: router
+          device_role: router
+          site: fake-site
+
+    - name: Create spine interfaces for each device in netbox
+      delegate_to: localhost
+      netbox_device_interface:
+        data:
+          device: "{{ inventory_hostname }}"
+          name: "{{ item }}"
+          type: 1000Base-t (1GE)
+      loop:
+        - e1-1
+        - e1-2
+        - e1-3
+        - e1-4
+
+- hosts: localhost
+  gather_facts: False
+  tags:
+    - cables
+  collections:
+    - netbox.netbox
+  module_defaults:
+    group/netbox.netbox.netbox:
+      netbox_url: "http://localhost:8000"
+      netbox_token: "0123456789abcdef0123456789abcdef01234567"
+      validate_certs: False
+  tasks:
+    - name: Create cables for spine links
+      netbox_cable:
+        data:
+          termination_a_type: dcim.interface
+          termination_a:
+            device: "{{ item.a_device }}"
+            name: "{{ item.a_name }}"
+          termination_b_type: dcim.interface
+          termination_b:
+            device: "{{ item.b_device }}"
+            name: "{{ item.b_name }}"
+        state: present
+      loop: "{{ cables }}"

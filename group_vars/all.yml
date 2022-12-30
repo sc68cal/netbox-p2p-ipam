@@ -1,0 +1,7 @@
+---
+
+cables: 
+  - a_device: clab-ipamexample-spine1
+    a_name: e1-1
+    b_device: clab-ipamexample-spine2
+    b_name: e1-1
