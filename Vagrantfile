@@ -13,7 +13,7 @@ Vagrant.configure("2") do |config|
 
 
   config.vm.provision "shell",
-    inline: "sudo apt-get install -y docker.io docker-compose"
+    inline: "sudo apt-get install -y docker.io docker-compose python3.10-venv"
   config.vm.provision "shell",
     inline: 'bash -c "$(curl -sL https://get.containerlab.dev)"'
   config.vm.provision "shell",
