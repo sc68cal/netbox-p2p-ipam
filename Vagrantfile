@@ -18,6 +18,10 @@ Vagrant.configure("2") do |config|
     inline: 'bash -c "$(curl -sL https://get.containerlab.dev)"'
   config.vm.provision "shell",
     inline: "git clone https://github.com/netbox-community/netbox-docker.git"
+  # Check out a version before the cable API broke - see
+  # https://github.com/netbox-community/netbox/issues/11210
+  config.vm.provision "shell",
+    inline: "cd netbox-docker; git checkout 2.0.0"
   config.vm.provision "shell",
     inline: "sudo usermod -a -G docker vagrant"
   config.vm.provision "shell",
