@@ -62,6 +62,8 @@
           device: "{{ inventory_hostname }}"
           name: "{{ item }}"
           type: 1000Base-t (1GE)
+      # SR Linux uses the following format 
+      # https://containerlab.dev/manual/kinds/srl/#interfaces-mapping
       loop:
         - e1-1
         - e1-2
@@ -124,11 +126,23 @@
     - name: Assign IPs to each cable endpoint from each /127
       netbox_ip_address:
         data: 
+          # Take the 0-based loop index, divide and round down, to get the
+          # nth /127 subnet in the p2p prefix. We divide and round down because
+          # we are looping through the cable array twice, once for the A side
+          # and once for the B side of the connection, and we need both sides to be in
+          # the same subnet
           prefix: "{{ p2p_prefix | ansible.utils.ipsubnet(127, (ansible_loop.index0 //2)) }}"
+          # Request that NetBox find an available IP address in the prefix and
+          # assign it to the interface
           assigned_object:
+            # If the index0 of this loop is an even number (or the first), grab the
+            # A side of the connection, otherwise grab the B side of the connection
             device: "{{ cables[ansible_loop.index0 // 2].a_device if ansible_loop.index0 % 2 else cables[ansible_loop.index0 // 2].b_device }}"
             name: "{{ cables[ansible_loop.index0 // 2].a_name if ansible_loop.index0 % 2 else cables[ansible_loop.index0 // 2].b_name }}"
 
+      # Loop through the total number of connections we have,
+      # but have two iterations for each connection
       loop: "{{ range(0, conn_count | int * 2 )| list }}"
+      # Use the extended loop control feature so that ansible_loop.index0 is available
       loop_control:
         extended: true
