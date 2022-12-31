@@ -1,11 +1,16 @@
-### NetBox setup
+### Quickstart
 
-You can use the vanilla [netbox-docker][nbd] docker-compose file.
+This repo contains a `Vagrantfile` that builds a virtual machine,
+that will contain both [containerlab][cl] and [NetBox][nb].
 
-[nbd]: https://github.com/netbox-community/netbox-docker
+Once the provisioning is complete, you can `vagrant ssh` into the
+machine and run Ansible, by doing the following:
 
-
-### Containerlab
-
-While containerlab [does support being run in a container](https://containerlab.dev/install/#container), it's not 100%
-cross-platform. It is better to run it via Vagrant since podman & windows still has some issues.
+```shell
+$ python -m venv ~/ansible-venv
+$ source ~/ansible-venv/bin/activate
+$ cd /vagrant
+$ pip install -r requirements.txt
+$ ansible-galaxy install -r requirements.yml
+$ ansible-playbook site.yml
+```
