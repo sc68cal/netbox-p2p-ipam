@@ -14,3 +14,7 @@ $ pip install -r requirements.txt
 $ ansible-galaxy install -r requirements.yml
 $ ansible-playbook site.yml
 ```
+
+[cl]: https://containerlab.dev
+
+[nb]: https://readthedocs.org/projects/netbox/
