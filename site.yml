@@ -30,7 +30,7 @@
         data:
           name: router
 
-    - name: Create our site 
+    - name: Create our site
       delegate_to: localhost
       run_once: True
       netbox_site:
@@ -126,8 +126,8 @@
         data: 
           prefix: "{{ p2p_prefix | ansible.utils.ipsubnet(127, (ansible_loop.index0 //2)) }}"
           assigned_object:
-            device: "{{ cables[ansible_loop.index0//2].a_device if ansible_loop.index0 % 2 else cables[ansible_loop.index0//2].b_device }}"
-            name: "{{ cables[ansible_loop.index0//2].a_name if ansible_loop.index0 % 2 else cables[ansible_loop.index0//2].b_name }}"
+            device: "{{ cables[ansible_loop.index0 // 2].a_device if ansible_loop.index0 % 2 else cables[ansible_loop.index0 // 2].b_device }}"
+            name: "{{ cables[ansible_loop.index0 // 2].a_name if ansible_loop.index0 % 2 else cables[ansible_loop.index0 // 2].b_name }}"
 
       loop: "{{ range(0, conn_count | int * 2 )| list }}"
       loop_control:
