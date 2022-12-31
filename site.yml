@@ -137,8 +137,8 @@
           assigned_object:
             # If the index0 of this loop is an even number (or the first), grab the
             # A side of the connection, otherwise grab the B side of the connection
-            device: "{{ cables[ansible_loop.index0 // 2].a_device if ansible_loop.index0 % 2 else cables[ansible_loop.index0 // 2].b_device }}"
-            name: "{{ cables[ansible_loop.index0 // 2].a_name if ansible_loop.index0 % 2 else cables[ansible_loop.index0 // 2].b_name }}"
+            device: "{{ cables[ansible_loop.index0 // 2].b_device if ansible_loop.index0 % 2 else cables[ansible_loop.index0 // 2].a_device }}"
+            name: "{{ cables[ansible_loop.index0 // 2].b_name if ansible_loop.index0 % 2 else cables[ansible_loop.index0 // 2].a_name }}"
 
       # Loop through the total number of connections we have,
       # but have two iterations for each connection
